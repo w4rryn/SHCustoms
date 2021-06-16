@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserControl x:Class="CustomControls.Controls.ToDoList.TodoListControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:CustomControls.Controls.ToDoList" xmlns:common="clr-namespace:CustomControls.Common" xmlns:vm="clr-namespace:CustomControls.Controls.ToDoList" xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Name="todo_control" TextElement.Foreground="{DynamicResource MaterialDesignBody}" Background="{DynamicResource MaterialDesignPaper}" TextElement.FontWeight="Medium" TextElement.FontSize="14">
+  <Control.FontFamily>
+    <wpf:MaterialDesignFontExtension xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf" />
+  </Control.FontFamily>
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
+      <common:InverseBooleanConverter x:Key="inverseBoolConverter" />
+      <DataTemplate x:Key="{DataTemplateKey {x:Type local:TodoTaskViewModel}}" DataType="{x:Type local:TodoTaskViewModel}">
+        <WrapPanel>
+          <FrameworkElement.Resources>
+            <ResourceDictionary>
+              <Style x:Key="{x:Type Border}" TargetType="{x:Type Border}">
+                <Setter Property="Margin" Value="0,0,5,0" />
+              </Style>
+            </ResourceDictionary>
+          </FrameworkElement.Resources>
+          <Border>
+            <CheckBox Name="check_task" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          </Border>
+          <Border>
+            <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Width="{Binding TextBoxWidth, RelativeSource={RelativeSource AncestorType=UserControl}}" IsEnabled="{Binding ElementName=check_task, Path=IsChecked, Converter={StaticResource inverseBoolConverter}}" Text="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          </Border>
+          <Border>
+            <Button Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding TodoBrowseCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Visibility="{Binding HasBrowse, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource VisibleIfTrueConverter}}">
+              <ContentControl.Content>
+                <wpf:PackIconExtension PackIconExtension.Kind="DatabaseSearch" xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf" />
+              </ContentControl.Content>
+            </Button>
+          </Border>
+          <Border>
+            <Button Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding RemoveItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
+              <ContentControl.Content>
+                <PackIconExtension p18:PackIconExtension.Kind="Trash" xmlns:p18="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf" xmlns="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf" />
+              </ContentControl.Content>
+            </Button>
+          </Border>
+        </WrapPanel>
+      </DataTemplate>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*" />
+      <RowDefinition Height="auto" />
+    </Grid.RowDefinitions>
+    <ListBox Margin="0,0,0,10" Grid.Row="0" dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" ItemsSource="{Binding TodoListItemSource, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+    <Button Grid.Row="1" Content="{Binding NewButtonContent, RelativeSource={RelativeSource AncestorType=UserControl}}" Command="{Binding NewItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+  </Grid>
+</UserControl>
