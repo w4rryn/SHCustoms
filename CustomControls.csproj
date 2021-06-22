@@ -4,6 +4,7 @@
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <UseWPF>True</UseWPF>
     <TargetFramework>net472</TargetFramework>
+    <Version>1.0.3</Version>
   </PropertyGroup>
   <PropertyGroup>
     <LangVersion>Preview</LangVersion>
@@ -14,6 +15,9 @@
     <PackageId>SHCustoms</PackageId>
     <Authors>w4rryn</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <SignAssembly>false</SignAssembly>
+    <RepositoryUrl>https://github.com/w4rryn/SHCustoms</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="gong-wpf-dragdrop" Version="2.3.2" />
