@@ -6,10 +6,10 @@ using System.Runtime.Versioning;
 using System.Windows;
 
 [assembly: AssemblyTitle("CustomControls")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Some weird and very bad controls and utilities for WPF")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CustomControls")]
+[assembly: AssemblyProduct("Custom controls for WPF")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: ComVisible(false)]
