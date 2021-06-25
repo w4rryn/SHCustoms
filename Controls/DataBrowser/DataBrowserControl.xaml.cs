@@ -10,6 +10,8 @@ namespace SHCustoms.Controls.DataBrowser
     /// </summary>
     public partial class DataBrowserControl : UserControl
     {
+        private ViewBase view;
+
         // Using a DependencyProperty as the backing store for ItemSource.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register("ItemSource",
                                                                                                    typeof(IEnumerable<object>),
@@ -25,6 +27,15 @@ namespace SHCustoms.Controls.DataBrowser
         {
             get => (IEnumerable<object>)GetValue(ItemSourceProperty);
             set => SetValue(ItemSourceProperty, value);
+        }
+
+        public ViewBase View
+        {
+            get => view; set
+            {
+                view = value;
+                list.View = view;
+            }
         }
     }
 }

@@ -10,12 +10,9 @@
              Background="{DynamicResource MaterialDesignPaper}" TextElement.FontWeight="Medium"
              TextElement.FontSize="14" mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800" Name="root">
     <Grid>
-        <ListView Name="list" ItemsSource="{Binding ItemSource, ElementName=root}">
+        <ListView Name="list" ItemsSource="{Binding ItemSource, ElementName=root}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Make" DisplayMemberBinding="{Binding Make}" />
-                    <GridViewColumn Header="Model" DisplayMemberBinding="{Binding Model}" />
-                    <GridViewColumn Header="Year" DisplayMemberBinding="{Binding Year}" />
                 </GridView>
             </ListView.View>
         </ListView>
