@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace CustomControls.Controls.ToDoList
+namespace SHCustoms.Controls.ToDoList
 {
     public class TodoTaskViewModel : INotifyPropertyChanged
     {
@@ -58,7 +58,7 @@ namespace CustomControls.Controls.ToDoList
 
         private void OnPropertyRaised(string property)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
     }
 }

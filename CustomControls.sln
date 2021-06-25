@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomControls", "CustomControls.csproj", "{06542EAE-0C41-424E-A87A-A04F650198A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SHCustoms", "SHCustoms.csproj", "{06542EAE-0C41-424E-A87A-A04F650198A4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples", "..\Examples\Examples.csproj", "{1F61AE3E-7E23-4244-9AC3-68B020020B70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{06542EAE-0C41-424E-A87A-A04F650198A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06542EAE-0C41-424E-A87A-A04F650198A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06542EAE-0C41-424E-A87A-A04F650198A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F61AE3E-7E23-4244-9AC3-68B020020B70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F61AE3E-7E23-4244-9AC3-68B020020B70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F61AE3E-7E23-4244-9AC3-68B020020B70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F61AE3E-7E23-4244-9AC3-68B020020B70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Input;
 
-namespace CustomControls.Common
+namespace SHCustoms.Common
 {
     internal class RelayCommand : ICommand
     {

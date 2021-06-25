@@ -1,14 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<UserControl x:Class="CustomControls.Controls.ToDoList.TodoListControl"
+﻿<UserControl x:Class="SHCustoms.Controls.ToDoList.TodoListControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:CustomControls.Controls.ToDoList"
-             xmlns:common="clr-namespace:CustomControls.Common"
-             xmlns:vm="clr-namespace:CustomControls.Controls.ToDoList"
+             xmlns:local="clr-namespace:SHCustoms.Controls.ToDoList"
+             xmlns:common="clr-namespace:SHCustoms.Common"
              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}" TextElement.FontWeight="Medium" TextElement.FontSize="14">
     <Control.FontFamily>

@@ -1,10 +1,10 @@
-using CustomControls.Common;
+using SHCustoms.Common;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace CustomControls.Controls.ToDoList
+namespace SHCustoms.Controls.ToDoList
 {
     public partial class TodoListControl : UserControl
     {

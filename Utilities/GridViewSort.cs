@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace CustomControls.CustomControls.Utilities
+namespace SHCustoms.Utilities
 {
     //Sauce: https://thomaslevesque.com/2009/03/27/wpf-automatically-sort-a-gridview-when-a-column-header-is-clicked/
     public class GridViewSort
@@ -31,11 +31,11 @@ namespace CustomControls.CustomControls.Utilities
                                 bool newValue = (bool)e.NewValue;
                                 if (oldValue && !newValue)
                                 {
-                                    listView.RemoveHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
+                                    listView.RemoveHandler(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
                                 }
                                 if (!oldValue && newValue)
                                 {
-                                    listView.AddHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
+                                    listView.AddHandler(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
                                 }
                             }
                         }
@@ -58,11 +58,11 @@ namespace CustomControls.CustomControls.Utilities
                             {
                                 if (e.OldValue != null && e.NewValue == null)
                                 {
-                                    listView.RemoveHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
+                                    listView.RemoveHandler(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
                                 }
                                 if (e.OldValue == null && e.NewValue != null)
                                 {
-                                    listView.AddHandler(GridViewColumnHeader.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
+                                    listView.AddHandler(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
                                 }
                             }
                         }
