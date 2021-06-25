@@ -23,11 +23,8 @@ namespace SHCustoms.Controls.DataBrowser
 
         public IEnumerable<object> ItemSource
         {
-            get { return (IEnumerable<object>)GetValue(ItemSourceProperty); }
-            set
-            {
-                SetValue(ItemSourceProperty, value);
-            }
+            get => (IEnumerable<object>)GetValue(ItemSourceProperty);
+            set => SetValue(ItemSourceProperty, value);
         }
     }
 }
