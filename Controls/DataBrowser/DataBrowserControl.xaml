@@ -10,7 +10,12 @@
              Background="{DynamicResource MaterialDesignPaper}" TextElement.FontWeight="Medium"
              TextElement.FontSize="14" mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800" Name="root">
     <Grid>
-        <ListView Name="list" ItemsSource="{Binding ItemSource, ElementName=root}" IsSynchronizedWithCurrentItem="True" util:GridViewSort.AutoSort="True">
+        <ListView Name="list" ItemsSource="{Binding ItemSource, ElementName=root}" IsSynchronizedWithCurrentItem="True"
+                  util:GridViewSort.AutoSort="True" MouseDoubleClick="List_MouseDoubleClick" SelectedItem="{Binding SelectedItem, ElementName=root, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <ListView.Resources>
+                <Style TargetType="GridViewColumnHeader">
+                </Style>
+            </ListView.Resources>
             <ListView.View>
                 <GridView>
                 </GridView>
