@@ -18,8 +18,6 @@ namespace SHCustoms.Controls.DataBrowser
             HeaderTemplate = header;
         }
 
-
-
         private static FrameworkElementFactory CreateHeaderFilterBox()
         {
             FrameworkElementFactory box = new(typeof(TextBox));

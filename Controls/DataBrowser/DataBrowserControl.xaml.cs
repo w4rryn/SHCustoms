@@ -75,7 +75,6 @@ namespace SHCustoms.Controls.DataBrowser
 
         private void FilterTextBoxKeyUp(object sender, KeyEventArgs e)
         {
-            var s = e.;
         }
     }
 }
