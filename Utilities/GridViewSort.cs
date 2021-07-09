@@ -16,49 +16,6 @@ namespace SHCustoms.Utilities
                                                                                                         typeof(GridViewSort),
                                                                                                         new UIPropertyMetadata(null, CommandPropertyChangedCallback));
 
-        private static void CommandPropertyChangedCallback(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            if (o is ItemsControl listView)
-            {
-                if (!IsAutoSort(listView))
-                {
-                    RemoveOrAddHeaderClickEventHandler(e, listView);
-                }
-            }
-        }
-
-        private static void RemoveOrAddHeaderClickEventHandler(DependencyPropertyChangedEventArgs e, ItemsControl listView)
-        {
-            if (CanRemoveColumnHeaderClickEventHandler(in e))
-            {
-                RemoveHeaderClickEventHandlerFromListView(listView);
-            }
-            if (CanAddColumnHeaderEventHandler(in e))
-            {
-                AddHeaderClickEventHandlerToListView(listView);
-            }
-        }
-
-        private static void AddHeaderClickEventHandlerToListView(ItemsControl listView)
-        {
-            listView.AddHandler(ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
-        }
-
-        private static void RemoveHeaderClickEventHandlerFromListView(ItemsControl listView)
-        {
-            listView.RemoveHandler(ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
-        }
-
-        private static bool CanAddColumnHeaderEventHandler(in DependencyPropertyChangedEventArgs e)
-        {
-            return e.OldValue == null && e.NewValue != null;
-        }
-
-        private static bool CanRemoveColumnHeaderClickEventHandler(in DependencyPropertyChangedEventArgs e)
-        {
-            return e.OldValue != null && e.NewValue == null;
-        }
-
         public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.RegisterAttached("PropertyName",
                                                                                                              typeof(string),
                                                                                                              typeof(GridViewSort),
@@ -68,6 +25,11 @@ namespace SHCustoms.Utilities
                                                                                                          typeof(bool),
                                                                                                          typeof(GridViewSort),
                                                                                                          new UIPropertyMetadata(false, AutoSortPropertyChangedCallback));
+
+        private static void AddHeaderClickEventHandlerToListView(ItemsControl listView)
+        {
+            listView.AddHandler(ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
+        }
 
         private static void AutoSortPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -94,14 +56,14 @@ namespace SHCustoms.Utilities
             }
         }
 
-        private static bool IsInverse(bool v1, bool inverseOf)
+        private static bool CanAddColumnHeaderEventHandler(in DependencyPropertyChangedEventArgs e)
         {
-            return v1 && !inverseOf;
+            return e.OldValue == null && e.NewValue != null;
         }
 
-        private static bool HasCommand(ListView listView)
+        private static bool CanRemoveColumnHeaderClickEventHandler(in DependencyPropertyChangedEventArgs e)
         {
-            return GetCommandFromObject(listView) == null;
+            return e.OldValue != null && e.NewValue == null;
         }
 
         private static void ColumnHeader_Click(object sender, RoutedEventArgs e)
@@ -128,6 +90,44 @@ namespace SHCustoms.Utilities
                         }
                     }
                 }
+            }
+        }
+
+        private static void CommandPropertyChangedCallback(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            if (o is ItemsControl listView)
+            {
+                if (!IsAutoSort(listView))
+                {
+                    RemoveOrAddHeaderClickEventHandler(e, listView);
+                }
+            }
+        }
+
+        private static bool HasCommand(ListView listView)
+        {
+            return GetCommandFromObject(listView) == null;
+        }
+
+        private static bool IsInverse(bool v1, bool inverseOf)
+        {
+            return v1 && !inverseOf;
+        }
+
+        private static void RemoveHeaderClickEventHandlerFromListView(ItemsControl listView)
+        {
+            listView.RemoveHandler(ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
+        }
+
+        private static void RemoveOrAddHeaderClickEventHandler(DependencyPropertyChangedEventArgs e, ItemsControl listView)
+        {
+            if (CanRemoveColumnHeaderClickEventHandler(in e))
+            {
+                RemoveHeaderClickEventHandlerFromListView(listView);
+            }
+            if (CanAddColumnHeaderEventHandler(in e))
+            {
+                AddHeaderClickEventHandlerToListView(listView);
             }
         }
 
@@ -169,11 +169,6 @@ namespace SHCustoms.Utilities
             }
         }
 
-        public static bool IsAutoSort(DependencyObject obj)
-        {
-            return (bool)obj.GetValue(AutoSortProperty);
-        }
-
         public static ICommand GetCommandFromObject(DependencyObject obj)
         {
             return (ICommand)obj.GetValue(CommandProperty);
@@ -182,6 +177,11 @@ namespace SHCustoms.Utilities
         public static string GetPropertyName(DependencyObject obj)
         {
             return (string)obj.GetValue(PropertyNameProperty);
+        }
+
+        public static bool IsAutoSort(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(AutoSortProperty);
         }
 
         public static void SetAutoSort(DependencyObject obj, bool value)

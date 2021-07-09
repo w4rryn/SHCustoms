@@ -72,5 +72,10 @@ namespace SHCustoms.Controls.DataBrowser
                 OnMouseDoubleClickCommand.Execute(SelectedItem);
             }
         }
+
+        private void FilterTextBoxKeyUp(object sender, KeyEventArgs e)
+        {
+            var s = e.;
+        }
     }
 }

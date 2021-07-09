@@ -15,6 +15,19 @@
         <ListView Name="list" ItemsSource="{Binding ItemSource, ElementName=root}" IsSynchronizedWithCurrentItem="True"
                   util:GridViewSort.AutoSort="True" MouseDoubleClick="List_MouseDoubleClick"
                   SelectedItem="{Binding SelectedItem, ElementName=root, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+            <ListView.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="MinWidth" Value="80" />
+                    <Setter Property="Margin" Value="4,2" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <EventSetter Event="KeyUp" Handler="FilterTextBoxKeyUp" />
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Margin" Value="20,4" />
+                    <Setter Property="TextAlignment" Value="Center" />
+                </Style>
+            </ListView.Resources>
             <ListView.View>
                 <GridView>
                 </GridView>
