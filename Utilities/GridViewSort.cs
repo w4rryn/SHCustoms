@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -9,71 +11,98 @@ namespace SHCustoms.Utilities
     //Sauce: https://thomaslevesque.com/2009/03/27/wpf-automatically-sort-a-gridview-when-a-column-header-is-clicked/
     public class GridViewSort
     {
-        private static readonly DependencyProperty autoSortProperty =
-            DependencyProperty.RegisterAttached(
-                "AutoSort",
-                typeof(bool),
-                typeof(GridViewSort),
-                new UIPropertyMetadata(
-                    false,
-                    (o, e) =>
-                    {
-                        if (o is ListView listView)
-                        {
-                            if (GetCommand(listView) == null)
-                            {
-                                bool oldValue = (bool)e.OldValue;
-                                bool newValue = (bool)e.NewValue;
-                                if (oldValue && !newValue)
-                                {
-                                    listView.RemoveHandler(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
-                                }
-                                if (!oldValue && newValue)
-                                {
-                                    listView.AddHandler(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
-                                }
-                            }
-                        }
-                    }
-                )
-            );
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached("Command",
+                                                                                                        typeof(ICommand),
+                                                                                                        typeof(GridViewSort),
+                                                                                                        new UIPropertyMetadata(null, CommandPropertyChangedCallback));
 
-        public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.RegisterAttached(
-                "Command",
-                typeof(ICommand),
-                typeof(GridViewSort),
-                new UIPropertyMetadata(
-                    null,
-                    (o, e) =>
-                    {
-                        if (o is ItemsControl listView)
-                        {
-                            if (!GetAutoSort(listView)) // Don't change click handler if AutoSort enabled
-                            {
-                                if (e.OldValue != null && e.NewValue == null)
-                                {
-                                    listView.RemoveHandler(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
-                                }
-                                if (e.OldValue == null && e.NewValue != null)
-                                {
-                                    listView.AddHandler(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
-                                }
-                            }
-                        }
-                    }
-                )
-            );
+        private static void CommandPropertyChangedCallback(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            if (o is ItemsControl listView)
+            {
+                if (!IsAutoSort(listView))
+                {
+                    RemoveOrAddHeaderClickEventHandler(e, listView);
+                }
+            }
+        }
 
-        public static readonly DependencyProperty PropertyNameProperty =
-            DependencyProperty.RegisterAttached(
-                "PropertyName",
-                typeof(string),
-                typeof(GridViewSort),
-                new UIPropertyMetadata(null)
-            );
+        private static void RemoveOrAddHeaderClickEventHandler(DependencyPropertyChangedEventArgs e, ItemsControl listView)
+        {
+            if (CanRemoveColumnHeaderClickEventHandler(in e))
+            {
+                RemoveHeaderClickEventHandlerFromListView(listView);
+            }
+            if (CanAddColumnHeaderEventHandler(in e))
+            {
+                AddHeaderClickEventHandlerToListView(listView);
+            }
+        }
 
-        public static DependencyProperty AutoSortProperty => autoSortProperty;
+        private static void AddHeaderClickEventHandlerToListView(ItemsControl listView)
+        {
+            listView.AddHandler(ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
+        }
+
+        private static void RemoveHeaderClickEventHandlerFromListView(ItemsControl listView)
+        {
+            listView.RemoveHandler(ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
+        }
+
+        private static bool CanAddColumnHeaderEventHandler(in DependencyPropertyChangedEventArgs e)
+        {
+            return e.OldValue == null && e.NewValue != null;
+        }
+
+        private static bool CanRemoveColumnHeaderClickEventHandler(in DependencyPropertyChangedEventArgs e)
+        {
+            return e.OldValue != null && e.NewValue == null;
+        }
+
+        public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.RegisterAttached("PropertyName",
+                                                                                                             typeof(string),
+                                                                                                             typeof(GridViewSort),
+                                                                                                             new UIPropertyMetadata(null));
+
+        public static DependencyProperty AutoSortProperty { get; } = DependencyProperty.RegisterAttached("AutoSort",
+                                                                                                         typeof(bool),
+                                                                                                         typeof(GridViewSort),
+                                                                                                         new UIPropertyMetadata(false, AutoSortPropertyChangedCallback));
+
+        private static void AutoSortPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ListView listView)
+            {
+                if (HasCommand(listView))
+                {
+                    AutoSortPropertyRemoveOrAddHeaderClickEventHandler(e, listView);
+                }
+            }
+        }
+
+        private static void AutoSortPropertyRemoveOrAddHeaderClickEventHandler(DependencyPropertyChangedEventArgs e, ListView listView)
+        {
+            bool oldValue = (bool)e.OldValue;
+            bool newValue = (bool)e.NewValue;
+            if (IsInverse(oldValue, newValue))
+            {
+                listView.RemoveHandler(ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
+            }
+            if (IsInverse(newValue, oldValue))
+            {
+                listView.AddHandler(ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
+            }
+        }
+
+        private static bool IsInverse(bool v1, bool inverseOf)
+        {
+            return v1 && !inverseOf;
+        }
+
+        private static bool HasCommand(ListView listView)
+        {
+            return GetCommandFromObject(listView) == null;
+        }
 
         private static void ColumnHeader_Click(object sender, RoutedEventArgs e)
         {
@@ -85,7 +114,7 @@ namespace SHCustoms.Utilities
                     ListView listView = GetAncestor<ListView>(headerClicked);
                     if (listView != null)
                     {
-                        ICommand command = GetCommand(listView);
+                        ICommand command = GetCommandFromObject(listView);
                         if (command != null)
                         {
                             if (command.CanExecute(propertyName))
@@ -93,7 +122,7 @@ namespace SHCustoms.Utilities
                                 command.Execute(propertyName);
                             }
                         }
-                        else if (GetAutoSort(listView))
+                        else if (IsAutoSort(listView))
                         {
                             ApplySort(listView.Items, propertyName);
                         }
@@ -131,17 +160,21 @@ namespace SHCustoms.Utilities
                 parent = VisualTreeHelper.GetParent(parent);
             }
             if (parent != null)
+            {
                 return (T)parent;
+            }
             else
+            {
                 return null;
+            }
         }
 
-        public static bool GetAutoSort(DependencyObject obj)
+        public static bool IsAutoSort(DependencyObject obj)
         {
             return (bool)obj.GetValue(AutoSortProperty);
         }
 
-        public static ICommand GetCommand(DependencyObject obj)
+        public static ICommand GetCommandFromObject(DependencyObject obj)
         {
             return (ICommand)obj.GetValue(CommandProperty);
         }

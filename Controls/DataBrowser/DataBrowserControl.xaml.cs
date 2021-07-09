@@ -42,8 +42,8 @@ namespace SHCustoms.Controls.DataBrowser
 
         public ICommand OnMouseDoubleClickCommand
         {
-            get { return (ICommand)GetValue(OnMouseDoubleClickCommandProperty); }
-            set { SetValue(OnMouseDoubleClickCommandProperty, value); }
+            get => (ICommand)GetValue(OnMouseDoubleClickCommandProperty);
+            set => SetValue(OnMouseDoubleClickCommandProperty, value);
         }
 
         public object SelectedItem
