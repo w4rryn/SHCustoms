@@ -13,7 +13,7 @@
     </UserControl.Resources>
     <Grid>
         <ListView Name="list" ItemsSource="{Binding ItemSource, ElementName=root}" IsSynchronizedWithCurrentItem="True"
-                  util:GridViewSort.AutoSort="True" MouseDoubleClick="List_MouseDoubleClick"
+                  util:GridViewHeaderSort.AutoSort="True" MouseDoubleClick="List_MouseDoubleClick"
                   SelectedItem="{Binding SelectedItem, ElementName=root, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
             <ListView.Resources>
                 <Style TargetType="TextBox">

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace SHCustoms.Controls.DataBrowser
 {
@@ -18,20 +19,40 @@ namespace SHCustoms.Controls.DataBrowser
             HeaderTemplate = header;
         }
 
-        private static FrameworkElementFactory CreateHeaderFilterBox()
+        public ICommand SortCommand
+        {
+            get => (ICommand)GetValue(SortCommandProperty);
+            set => SetValue(SortCommandProperty, value);
+        }
+
+        public static readonly DependencyProperty SortCommandProperty = DependencyProperty.Register("SortCommand", typeof(ICommand), typeof(FilterGridViewColumn));
+
+        public object PropertyName { get; set; }
+
+        private FrameworkElementFactory CreateHeaderFilterBox()
         {
             FrameworkElementFactory box = new(typeof(TextBox));
+            box.AddHandler(UIElement.KeyUpEvent, new KeyEventHandler(OnKeyUp));
             return box;
         }
 
-        private static FrameworkElementFactory CreateHeaderTextFactory()
+        private void OnKeyUp(object sender, KeyEventArgs e)
+        {
+            var parameters = new SortParameters(sender, e, PropertyName);
+            if (SortCommand != null && SortCommand.CanExecute(parameters))
+            {
+                SortCommand.Execute(parameters);
+            }
+        }
+
+        private FrameworkElementFactory CreateHeaderTextFactory()
         {
             FrameworkElementFactory text = new(typeof(TextBlock));
             text.SetBinding(TextBlock.TextProperty, new Binding());
             return text;
         }
 
-        private static FrameworkElementFactory CreateHeaderStackPanelFactory()
+        private FrameworkElementFactory CreateHeaderStackPanelFactory()
         {
             FrameworkElementFactory stack = new(typeof(StackPanel));
             stack.SetValue(StackPanel.OrientationProperty, Orientation.Vertical);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -9,21 +8,21 @@ using System.Windows.Media;
 namespace SHCustoms.Utilities
 {
     //Sauce: https://thomaslevesque.com/2009/03/27/wpf-automatically-sort-a-gridview-when-a-column-header-is-clicked/
-    public class GridViewSort
+    public class GridViewHeaderSort
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached("Command",
                                                                                                         typeof(ICommand),
-                                                                                                        typeof(GridViewSort),
+                                                                                                        typeof(GridViewHeaderSort),
                                                                                                         new UIPropertyMetadata(null, CommandPropertyChangedCallback));
 
         public static readonly DependencyProperty PropertyNameProperty = DependencyProperty.RegisterAttached("PropertyName",
                                                                                                              typeof(string),
-                                                                                                             typeof(GridViewSort),
+                                                                                                             typeof(GridViewHeaderSort),
                                                                                                              new UIPropertyMetadata(null));
 
         public static DependencyProperty AutoSortProperty { get; } = DependencyProperty.RegisterAttached("AutoSort",
                                                                                                          typeof(bool),
-                                                                                                         typeof(GridViewSort),
+                                                                                                         typeof(GridViewHeaderSort),
                                                                                                          new UIPropertyMetadata(false, AutoSortPropertyChangedCallback));
 
         private static void AddHeaderClickEventHandlerToListView(ItemsControl listView)
@@ -44,8 +43,8 @@ namespace SHCustoms.Utilities
 
         private static void AutoSortPropertyRemoveOrAddHeaderClickEventHandler(DependencyPropertyChangedEventArgs e, ListView listView)
         {
-            bool oldValue = (bool)e.OldValue;
-            bool newValue = (bool)e.NewValue;
+            var oldValue = (bool)e.OldValue;
+            var newValue = (bool)e.NewValue;
             if (IsInverse(oldValue, newValue))
             {
                 listView.RemoveHandler(ButtonBase.ClickEvent, new RoutedEventHandler(ColumnHeader_Click));
@@ -70,7 +69,7 @@ namespace SHCustoms.Utilities
         {
             if (e.OriginalSource is GridViewColumnHeader headerClicked)
             {
-                string propertyName = GetPropertyName(headerClicked.Column);
+                var propertyName = GetPropertyName(headerClicked.Column);
                 if (!string.IsNullOrEmpty(propertyName))
                 {
                     ListView listView = GetAncestor<ListView>(headerClicked);
